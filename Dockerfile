@@ -23,9 +23,11 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /tools
 RUN git clone https://github.com/voutcn/megahit.git \
- && cd /tools/megahit && make && make test && cd ..
+ && cd /tools/megahit && make && make test
+ENV PATH /tools/megahit:$PATH
+
+WORKDIR /work
 
 # Download the data
-RUN wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR341/SRR341725/SRR341725_[12].fastq.gz -P /tools/megahit/example_SRR341725 \
- && megahit/megahit -1 /tools/megahit/example_SRR341725/SRR341725_1.fastq.gz -2 /tools/megahit/example_SRR341725/SRR341725_2.fastq.gz -o /tools/megahit/example_SRR341725/SRR341725.megahit_asm
+RUN wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR341/SRR341725/SRR341725_[12].fastq.gz -P /tools/megahit/example_SRR341725
 
